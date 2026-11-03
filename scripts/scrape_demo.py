@@ -1,3 +1,4 @@
+import sys
 import requests
 from bs4 import BeautifulSoup
 
@@ -14,11 +15,13 @@ def robots_allows(url, user_agent="*"):
     # intercepts the request and robotparser then defaults to "disallow everything"
     # with no visible error. Confirmed by real testing: rp.read() returned False for
     # a URL manually verified as allowed. Fetching the text with requests (already
-    # proxy-bypassed everywhere else in this course) and handing it to rp.parse()
-    # instead avoids the same silent-failure trap.
+    # with a User-Agent header -- Wikipedia answers 403 without one) and handing
+    # it to rp.parse() instead avoids that silent-failure trap.
+    # NOTE: on the univ-lemans network, direct internet access is blocked: external
+    # requests MUST go through HTTP(S)_PROXY. Only local services (Ollama on
+    # 127.0.0.1) bypass it, which NO_PROXY already handles.
     import urllib.robotparser
     resp = requests.get("https://fr.wikipedia.org/robots.txt",
-                         proxies={"http": None, "https": None},
                          headers={"User-Agent": USER_AGENT}, timeout=15)
     resp.raise_for_status()
     rp = urllib.robotparser.RobotFileParser()
@@ -26,12 +29,15 @@ def robots_allows(url, user_agent="*"):
     return rp.can_fetch(user_agent, url)
 
 def main():
+    # Windows consoles default to cp1252, which crashes on IPA characters (e.g. "ə")
+    # found in Wikipedia intros.
+    sys.stdout.reconfigure(encoding="utf-8")
     allowed = robots_allows(URL)
     print(f"robots.txt allows fetching {URL}: {allowed}")
     if not allowed:
         raise SystemExit("robots.txt disallows this -- stopping, not scraping anyway.")
 
-    resp = requests.get(URL, proxies={"http": None, "https": None},
+    resp = requests.get(URL,
                          headers={"User-Agent": USER_AGENT}, timeout=15)
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, "html.parser")

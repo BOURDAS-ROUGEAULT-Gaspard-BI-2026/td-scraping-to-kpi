@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-11-03T08:05:06Z",
+  "kpi_label": "% of postings mentioning 'Python'",
+  "kpi_value": 0.267,
+  "n_postings_analyzed": 15,
+  "n_matching": 4,
+  "top_skills": [
+    {
+      "skill": "Python",
+      "count": 4
+    },
+    {
+      "skill": "AWS",
+      "count": 4
+    },
+    {
+      "skill": "Docker",
+      "count": 3
+    },
+    {
+      "skill": "MATLAB",
+      "count": 1
+    },
+    {
+      "skill": "CAPL",
+      "count": 1
+    },
+    {
+      "skill": "C#",
+      "count": 1
+    },
+    {
+      "skill": "Terraform",
+      "count": 1
+    },
+    {
+      "skill": "GitLab CI/CD",
+      "count": 1
+    },
+    {
+      "skill": "CloudWatch",
+      "count": 1
+    },
+    {
+      "skill": "Datadog",
+      "count": 1
+    }
+  ],
+  "avg_skills_per_posting": 2.0
+}

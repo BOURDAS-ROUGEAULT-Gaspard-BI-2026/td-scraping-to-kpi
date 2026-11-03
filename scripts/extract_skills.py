@@ -2,7 +2,7 @@ import csv, json, sys, time
 import requests
 
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
-MODEL = "qwen3:8b"
+MODEL = "llama3.2"
 N_POSTINGS = int(sys.argv[1]) if len(sys.argv) > 1 else 15
 MAX_CHARS = 1500  # keeps each call fast enough for a live session -- see below
 
